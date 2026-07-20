@@ -46,7 +46,10 @@ fn handle_connection(stream: &mut TcpStream) -> std::io::Result<()> {
                 ResponseWriter::new(stream)
                     .status(200, b"OK")?
                     .write_header(b"Content-Type", b"text/html")?
-                    .write_header(b"Content-Length", b"33")?
+                    .write_header(
+                        b"Content-Length",
+                        itoa::Buffer::new().format(res.len()).as_bytes(),
+                    )?
                     .write_body(res)?
                     .end();
 
