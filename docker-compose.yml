@@ -1,0 +1,15 @@
+services:
+  dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    volumes:
+      - .:/app
+      - target:/app/target
+    ports:
+      - "9876:9876"
+    stdin_open: true
+    tty: true
+
+volumes:
+  target:

@@ -61,15 +61,6 @@ impl<'a> ResponseWriter<'a, WantHeaders> {
 }
 
 impl<'a> ResponseWriter<'a, WantBody> {
-    pub fn write_body(self, body: &[u8]) -> std::io::Result<ResponseWriter<'a, WantBody>> {
-        self.stream.write_all(body)?;
-
-        Ok(ResponseWriter {
-            stream: self.stream,
-            _state: std::marker::PhantomData,
-        })
-    }
-
     pub fn end(self) -> Option<std::io::Error> {
         self.stream.flush().err()
     }

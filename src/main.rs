@@ -42,7 +42,7 @@ fn handle_connection(stream: &mut TcpStream) -> std::io::Result<()> {
                     positions.resolve(&buf[..read_bytes], &header_positions, &mut header_buf);
                 println!("{request} ({read_bytes} bytes read)");
 
-                let res = b"<html><h1>Hello World</h1></html>";
+                let res = b"<html><h1>Hello World; From Inside the Dev container</h1></html>";
                 ResponseWriter::new(stream)
                     .status(200, b"OK")?
                     .write_header(b"Content-Type", b"text/html")?
