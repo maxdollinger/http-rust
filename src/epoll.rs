@@ -86,6 +86,7 @@ pub enum ConnState {
         buf: [u8; 8192],
         len: usize,
         written_bytes: usize,
+        keep_alive: bool,
     },
 }
 
