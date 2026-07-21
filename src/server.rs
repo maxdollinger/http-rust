@@ -184,6 +184,7 @@ fn accept_all(
         match listener.accept() {
             Ok((stream, _addr)) => {
                 stream.set_nonblocking(true)?;
+                stream.set_nodelay(true)?;
                 let fd = stream.as_raw_fd();
 
                 epoll.add(fd, (libc::EPOLLIN | libc::EPOLLET) as u32)?;
