@@ -10,6 +10,8 @@ services:
       - "9876:9876"
     stdin_open: true
     tty: true
+    cpus: 4
+    mem_limit: 4g
 
 volumes:
   target:

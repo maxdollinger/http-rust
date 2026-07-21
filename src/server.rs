@@ -11,6 +11,9 @@ use crate::{
     http_res::ResponseWriter,
 };
 
+const MAX_CONNECTIONS: u64 = 8192;
+const THREAD_COUNT: u64 = 6;
+
 enum ReadOutcome {
     Pending,
     Close,
@@ -204,8 +207,6 @@ fn accept_all(
     }
 }
 
-const MAX_CONNECTIONS: u64 = 4096;
-
 fn set_sockopt(fd: RawFd, opt: libc::c_int) -> std::io::Result<()> {
     let value: libc::c_int = 1;
     let ret = unsafe {
@@ -303,9 +304,8 @@ pub fn run() -> std::io::Result<()> {
     set_max_fds(MAX_CONNECTIONS)?;
 
     let addr: SocketAddr = "0.0.0.0:9876".parse().unwrap();
-    let num_threads = std::thread::available_parallelism()?.get();
 
-    let handles: Vec<_> = (0..num_threads)
+    let handles: Vec<_> = (0..THREAD_COUNT)
         .map(|_| std::thread::spawn(move || run_event_loop(addr)))
         .collect();
 
